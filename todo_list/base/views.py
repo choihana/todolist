@@ -5,7 +5,17 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Task
 from django.urls import reverse_lazy
+from django.contrib.auth.views import LoginView, LogoutView
 
+
+class CustomLoginView(LoginView):
+    template_name = 'base/login.html'
+    fields = '__all__'
+    redirect_authenticated_user = True
+
+    def get_success_url(self):
+        #login 성공 후 task-list 페이지로 이동
+        return reverse_lazy('tasks')
 
 class TaskList(ListView):
     model = Task
